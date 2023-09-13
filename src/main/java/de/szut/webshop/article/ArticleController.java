@@ -25,7 +25,7 @@ public class ArticleController {
     }
 
     @PostMapping("/{id}")
-    public ResponseEntity<GetArticleDto> createArticle(@Valid @RequestBody final AddArticleDto dto, @RequestParam Long supplierId) {
+    public ResponseEntity<GetArticleDto> createArticle(@Valid @RequestBody final AddArticleDto dto, @PathVariable("id") final Long supplierId) {
         SupplierEntity supplier = this.supplierService.readById(supplierId);
         ArticleEntity newArticle = this.mappingService.mapAddArticleDtoToArticle(dto, supplier);
         newArticle = this.service.create(newArticle);
@@ -50,10 +50,11 @@ public class ArticleController {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
-    @GetMapping("/{designation}")
-    public ResponseEntity<GetArticleDto> getArticleByDesignation(@PathVariable String designation) {
+    @GetMapping("ByDesignation") //Möglicherweise andere Umsetzung an Stelle von Param
+    public ResponseEntity<GetArticleDto> getArticleByDesignation(@RequestParam String designation) {
         final var article = this.service.readByDesignation(designation);
         final GetArticleDto dto = this.mappingService.mapArticleToGetArticleDto(article);
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
+
 }
