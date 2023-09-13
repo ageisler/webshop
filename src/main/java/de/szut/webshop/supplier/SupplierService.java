@@ -1,6 +1,7 @@
 package de.szut.webshop.supplier;
 
 import de.szut.webshop.contact.ContactEntity;
+import de.szut.webshop.exceptionhandling.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,7 +25,10 @@ public class SupplierService {
 
     public SupplierEntity readById(long id) {
         Optional<SupplierEntity> supplierOptional = repository.findById(id);
-        return supplierOptional.orElse(null);
+        if (supplierOptional.isEmpty()) {
+            throw new ResourceNotFoundException("Supplier not found on id = " + id);
+        }
+        return supplierOptional.get();
     }
 
     public SupplierEntity update(SupplierEntity supplier) {

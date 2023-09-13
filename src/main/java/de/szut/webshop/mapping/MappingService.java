@@ -1,5 +1,6 @@
 package de.szut.webshop.mapping;
 
+import de.szut.webshop.article.AddArticleDto;
 import de.szut.webshop.article.ArticleEntity;
 import de.szut.webshop.article.GetAllArticlesBySupplierIdDto;
 import de.szut.webshop.article.GetArticleDto;
@@ -7,13 +8,16 @@ import de.szut.webshop.contact.ContactEntity;
 import de.szut.webshop.supplier.AddSupplierDto;
 import de.szut.webshop.supplier.GetSupplierDto;
 import de.szut.webshop.supplier.SupplierEntity;
+import de.szut.webshop.supplier.SupplierService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
 @Service
 public class MappingService {
+    // Supplier
     public SupplierEntity mapAddSupplierDtoToSupplier(AddSupplierDto dto) {
         SupplierEntity newSupplier = new SupplierEntity();
         newSupplier.setName(dto.getName());
@@ -59,6 +63,23 @@ public class MappingService {
         }
         allArticlesBySupplierId.setArticles(articleDtoSet);
         return allArticlesBySupplierId;
+    }
+
+    // Articles
+    public ArticleEntity mapAddArticleDtoToArticle(AddArticleDto dto, SupplierEntity supplier) {
+        ArticleEntity newArticle = new ArticleEntity();
+        newArticle.setDesignation(dto.getDesignation());
+        newArticle.setPrice(dto.getPrice());
+        newArticle.setSupplier(supplier);
+        return newArticle;
+    }
+
+    public GetArticleDto mapArticleToGetArticleDto(ArticleEntity article) {
+        GetArticleDto dto = new GetArticleDto();
+        dto.setAid(article.getAid());
+        dto.setDesignation(article.getDesignation());
+        dto.setPrice(article.getPrice());
+        return dto;
     }
 
 }
