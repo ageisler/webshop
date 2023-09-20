@@ -4,6 +4,7 @@ import de.szut.webshop.exceptionhandling.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -33,7 +34,7 @@ public class ArticleService {
     public ArticleEntity readByDesignation(String designation){
         List<ArticleEntity> articles = readAll();
         for(ArticleEntity articleEntity: articles) {
-            if(articleEntity.getDesignation() == designation) {
+            if(Objects.equals(articleEntity.getDesignation(), designation)) {
                 return articleEntity;
             }
         }

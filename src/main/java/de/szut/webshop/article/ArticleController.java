@@ -34,11 +34,17 @@ public class ArticleController {
     }
 
     @GetMapping
-    public ResponseEntity<List<GetArticleDto>> findAllArticles() {
-        List<ArticleEntity> all = this.service.readAll();
+    public ResponseEntity<List<GetArticleDto>> findAllArticles(@RequestParam(required = false, defaultValue = "") String designation) {
         List<GetArticleDto> dtoList = new LinkedList<>();
-        for(ArticleEntity articleEntity: all) {
-            dtoList.add(this.mappingService.mapArticleToGetArticleDto(articleEntity));
+        if (!designation.isEmpty()) {
+            final var article = this.service.readByDesignation(designation);
+            final GetArticleDto dto = this.mappingService.mapArticleToGetArticleDto(article);
+            dtoList.add(dto);
+        } else {
+            List<ArticleEntity> all = this.service.readAll();
+            for (ArticleEntity articleEntity : all) {
+                dtoList.add(this.mappingService.mapArticleToGetArticleDto(articleEntity));
+            }
         }
         return new ResponseEntity<>(dtoList, HttpStatus.OK);
     }
@@ -46,13 +52,6 @@ public class ArticleController {
     @GetMapping("/id")
     public ResponseEntity<GetArticleDto> getArticleById(@PathVariable final Long id) {
         final var article = this.service.readById(id);
-        final GetArticleDto dto = this.mappingService.mapArticleToGetArticleDto(article);
-        return new ResponseEntity<>(dto, HttpStatus.OK);
-    }
-
-    @GetMapping("ByDesignation") //Möglicherweise andere Umsetzung an Stelle von Param
-    public ResponseEntity<GetArticleDto> getArticleByDesignation(@RequestParam String designation) {
-        final var article = this.service.readByDesignation(designation);
         final GetArticleDto dto = this.mappingService.mapArticleToGetArticleDto(article);
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }

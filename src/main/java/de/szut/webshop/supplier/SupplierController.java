@@ -1,5 +1,6 @@
 package de.szut.webshop.supplier;
 
+import de.szut.webshop.article.GetAllArticlesBySupplierIdDto;
 import de.szut.webshop.mapping.MappingService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -42,6 +43,13 @@ public class SupplierController {
     public ResponseEntity<GetSupplierDto> getSupplierById(@PathVariable final Long id) {
         final var entity = this.service.readById(id);
         final GetSupplierDto dto = this.mappingService.mapSupplierToGetSupplierDto(entity);
+        return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}/articles")
+    public ResponseEntity<GetAllArticlesBySupplierIdDto> getAllArticlesBySupplierById(@PathVariable final Long id) {
+        final var entity = this.service.readById(id);
+        final GetAllArticlesBySupplierIdDto dto = this.mappingService.mapSupplierToGetAllArticlesBySupplierIdDto(entity);
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 

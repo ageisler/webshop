@@ -31,6 +31,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation:3.1.3")
     testImplementation("org.testcontainers:testcontainers:1.19.0")
     testImplementation("org.testcontainers:postgresql:1.19.0")
+
 }
 
 tasks.withType<Test> {
