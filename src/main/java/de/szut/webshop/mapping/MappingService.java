@@ -74,11 +74,12 @@ public class MappingService {
         return newArticle;
     }
 
-    public GetArticleDto mapArticleToGetArticleDto(ArticleEntity article) {
+    public GetArticleDto mapArticleToGetArticleDto(ArticleEntity article,String currency) {
         GetArticleDto dto = new GetArticleDto();
         dto.setAid(article.getAid());
         dto.setDesignation(article.getDesignation());
         dto.setPrice(article.getPrice());
+        dto.setCurrency(currency);
         return dto;
     }
 

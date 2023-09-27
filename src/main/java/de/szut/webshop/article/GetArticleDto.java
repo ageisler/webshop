@@ -7,4 +7,5 @@ public class GetArticleDto {
     private Long aid;
     private String designation;
     private Double price;
+    private String currency;
 }
